@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en" ng-app>
   <head>
-    <title>Chat client web</title>
+    <title>Dashboard phonegap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="phonegap.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
     <style>
@@ -44,6 +45,26 @@
         };
       }
     </script>
+	<script type="text/javascript" charset="utf-8">
+
+	// Wait for device API libraries to load
+	//
+	document.addEventListener("deviceready", onDeviceReady, false);
+
+	// device APIs are available
+	//
+	function onDeviceReady() {
+    	var element = document.getElementById('deviceProperties');
+    	element.innerHTML = 'Device Name: ' 	+ device.name 	+ '<br />' +
+                        	'Device Cordova: '  + device.cordova  + '<br />' +
+                        	'Device Platform: ' + device.platform + '<br />' +
+                        	'Device UUID: ' 	+ device.uuid 	+ '<br />' +
+                        	'Device Model: '	+ device.model	+ '<br />' +
+                        	'Device Version: '  + device.version  + '<br />';
+	}
+
+	</script>
+
   </head>
   <body>
     <div class="container" ng-controller="ChatController">
@@ -55,7 +76,7 @@
         </div>
       </div>
       <div class="page-header">
-        <h1>Dashboard exterieur a OpenShift</h1>
+        <h1>Dashboard Phonegap</h1>
       </div>
       <div class="row">
         <div class="span3">
@@ -92,6 +113,7 @@
         </div>
       </div>
     </div>
+	<p id="deviceProperties">Loading device properties...</p>
     <script src="socket.io/socket.io.js"></script>
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
