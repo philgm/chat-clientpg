@@ -12,6 +12,9 @@
       }
     </style>
     <script>
+	
+
+	
       function ChatController($scope) {
         var socket = io.connect("http://dashtrip4od-philgm.rhcloud.com/");
 
@@ -51,7 +54,9 @@
 	//
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
-
+	// The watch id references the current `watchAcceleration`
+    var watchID = null;
+	
 	// device APIs are available
 	//
 	function onDeviceReady() {
@@ -63,10 +68,11 @@
                         	'Device Model: '	+ device.model	+ '<br />' +
                         	'Device Version: '  + device.version  + '<br />';
 							
-		 navigator.geolocation.getCurrentPosition(onSuccess, onError);					
+		navigator.geolocation.getCurrentPosition(onSuccessGeoloc, onErrorGeoloc);	
+		startWatch();
 	}
 	
-	function onSuccess(position) {
+	function onSuccessGeoloc(position) {
         var element = document.getElementById('geolocation');
         element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
                             'Longitude: '          + position.coords.longitude             + '<br />' +
@@ -80,12 +86,45 @@
 
     // onError Callback receives a PositionError object
     //
-    function onError(error) {
+    function onErrorGeoloc(error) {
         alert('code: '    + error.code    + '\n' +
               'message: ' + error.message + '\n');
     }
 	
-	
+	    // Start watching the acceleration
+    //
+    function startWatch() {
+
+        // Update acceleration every 3 seconds
+        var options = { frequency: 3000 };
+
+        watchID = navigator.accelerometer.watchAcceleration(onSuccessAccel, onErrorAccel, options);
+    }
+
+    // Stop watching the acceleration
+    //
+    function stopWatch() {
+        if (watchID) {
+            navigator.accelerometer.clearWatch(watchID);
+            watchID = null;
+        }
+    }
+
+    // onSuccess: Get a snapshot of the current acceleration
+    //
+    function onSuccessAccel(acceleration) {
+        var element = document.getElementById('accelerometer');
+        element.innerHTML = 'Acceleration X: ' + acceleration.x         + '<br />' +
+                            'Acceleration Y: ' + acceleration.y         + '<br />' +
+                            'Acceleration Z: ' + acceleration.z         + '<br />' +
+                            'Timestamp: '      + acceleration.timestamp + '<br />';
+    }
+
+    // onError: Failed to get the acceleration
+    //
+    function onErrorAccel() {
+        alert('onError!');
+    }
 	
 
 	</script>
@@ -140,6 +179,7 @@
     </div>
 	<p id="deviceProperties">Loading device properties...</p>
 	<p id="geolocation">Loading geolocation...</p>
+	<div id="accelerometer">Waiting for accelerometer...</div>
     <script src="socket.io/socket.io.js"></script>
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
