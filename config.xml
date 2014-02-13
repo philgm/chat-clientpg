@@ -7,10 +7,10 @@
 
     <!-- versionCode is optional and Android only -->
 
-    <name>DashTrip-Arg</name>
+    <name>DashTrip</name>
 
     <description>
-        Test de DashTrip-Arg
+        Test de DashTrip
     </description>
 
     <author href="http://argosapps.fr" email="contact@argosapps.fr">
@@ -23,6 +23,8 @@
 <feature name="SplashScreen">
     <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
 </feature>
+
+<feature name="http://api.phonegap.com/1.0/device" />
 
 
 <!--ICON-->	
