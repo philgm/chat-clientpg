@@ -69,7 +69,7 @@
                         	'Device Version: '  + device.version  + '<br />';
 							
 		navigator.geolocation.getCurrentPosition(onSuccessGeoloc, onErrorGeoloc);	
-		startWatch();
+		navigator.accelerometer.getCurrentAcceleration(onSuccessAccel, onErrorAccel);
 	}
 	
 	function onSuccessGeoloc(position) {
@@ -91,24 +91,7 @@
               'message: ' + error.message + '\n');
     }
 	
-	    // Start watching the acceleration
-    //
-    function startWatch() {
-
-        // Update acceleration every 3 seconds
-        var options = { frequency: 3000 };
-
-        watchID = navigator.accelerometer.watchAcceleration(onSuccessAccel, onErrorAccel, options);
-    }
-
-    // Stop watching the acceleration
-    //
-    function stopWatch() {
-        if (watchID) {
-            navigator.accelerometer.clearWatch(watchID);
-            watchID = null;
-        }
-    }
+	
 
     // onSuccess: Get a snapshot of the current acceleration
     //
@@ -179,7 +162,7 @@
     </div>
 	<p id="deviceProperties">Loading device properties...</p>
 	<p id="geolocation">Loading geolocation...</p>
-	<div id="accelerometer">Waiting for accelerometer...</div>
+	<p id="accelerometer">Waiting for accelerometer...</p>
     <script src="socket.io/socket.io.js"></script>
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
